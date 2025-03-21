@@ -48,13 +48,11 @@ class Course:
 
     @classmethod
     def create(cls, teacher, classname, term):
-        """ Initialize a new Department instance and save the object to the database """
         course = cls(teacher, classname, term)
         course.save()
         return course
 
     def update(self):
-        """Update the table row corresponding to the current Department instance."""
         sql = """
             UPDATE courses
             SET teacher = ?, classname = ?, term = ?
@@ -64,8 +62,7 @@ class Course:
         CONN.commit()
 
     def delete(self):
-        """Delete the table row corresponding to the current Department instance,
-        delete the dictionary entry, and reassign id attribute"""
+        
 
         sql = """
             DELETE FROM courses
@@ -83,7 +80,6 @@ class Course:
 
     @classmethod
     def instance_from_db(cls, row):
-        """Return a Department object having the attribute values from the table row."""
 
         # Check the dictionary for an existing instance using the row's primary key
         course = cls.all.get(row[0])
@@ -102,7 +98,6 @@ class Course:
 
     @classmethod
     def get_all(cls):
-        """Return a list containing a Department object per row in the table"""
         sql = """
             SELECT *
             FROM courses
@@ -114,7 +109,6 @@ class Course:
 
     @classmethod
     def find_by_id(cls, id):
-        """Return a Department object corresponding to the table row matching the specified primary key"""
         sql = """
             SELECT *
             FROM courses
@@ -126,7 +120,6 @@ class Course:
 
     @classmethod
     def find_by_name(cls, classname):
-        """Return a Department object corresponding to first table row matching specified name"""
         sql = """
             SELECT *
             FROM courses

@@ -12,7 +12,31 @@ class Course:
     def __repr__(self):
         return f"<Course {self.id}: {self.teacher}, {self.classname},{self.term} >"
 
+    @property
+    def teacher(self):
+        return self._teacher
 
+    @teacher.setter
+    def teacher(self, teacher):
+        if isinstance(teacher, str) and len(teacher)>0:
+            self._teacher = teacher
+        else:
+            raise ValueError(
+                "teacher must be a non-empty string"
+            )
+    @property
+    def classname(self):
+        return self._classname
+
+    @classname.setter
+    def classname(self, classname):
+        if isinstance(classname, str) and len(classname)>0:
+            self._classname = classname
+        else:
+            raise ValueError(
+                "classname must be a non-empty string"
+            )
+    
     @classmethod
     def create_table(cls):
         sql = """
@@ -28,7 +52,7 @@ class Course:
     @classmethod
     def drop_table(cls):
         sql = """
-            DROP TABLE IF EXISTS classes;
+            DROP TABLE IF EXISTS courses;
         """
         CURSOR.execute(sql)
         CONN.commit()
@@ -36,7 +60,7 @@ class Course:
     def save(self):
     
         sql = """
-            INSERT INTO classes (teacher, classname, term)
+            INSERT INTO courses (teacher, classname, term)
             VALUES (?, ?, ?)
         """
 
@@ -72,25 +96,19 @@ class Course:
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
-        # Delete the dictionary entry using id as the key
         del type(self).all[self.id]
-
-        # Set the id to None
         self.id = None
 
     @classmethod
     def instance_from_db(cls, row):
 
-        # Check the dictionary for an existing instance using the row's primary key
         course = cls.all.get(row[0])
         if course:
-            # ensure attributes match row values in case local instance was modified
             course.teacher = row[1]
             course.classname = row[2]
             course.term = row[3]
 
         else:
-            # not in dictionary, create new instance and add to dictionary
             course = cls(row[1], row[2], row[3])
             course.id = row[0]
             cls.all[course.id] = course

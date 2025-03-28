@@ -1,3 +1,4 @@
+# lib/models/Course.py
 from models.__init__ import CURSOR, CONN
 
 class Course:
@@ -36,7 +37,7 @@ class Course:
     def save(self):
     
         sql = """
-            INSERT INTO classes (teacher, classname, term)
+            INSERT INTO courses (teacher, classname, term)
             VALUES (?, ?, ?)
         """
 

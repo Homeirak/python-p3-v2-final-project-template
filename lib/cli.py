@@ -2,9 +2,9 @@
 
 from helpers import (
     exit_program,
-    helper_1
+    student_menu,
+    # course_menu
 )
-
 
 def main():
     while True:
@@ -13,16 +13,18 @@ def main():
         if choice == "0":
             exit_program()
         elif choice == "1":
-            helper_1()
+            student_menu()
+        # elif choice == "2":
+        #     course_menu()
         else:
-            print("Invalid choice")
-
+            print("Invalid choice. Please try again.\n")
 
 def menu():
+    print("\nWelcome to BinaryBoost School CLI!")
     print("Please select an option:")
-    print("0. Exit the program")
-    print("1. Some useful function")
-
+    print("1. Student Management")
+    print("2. Course Management")
+    print("0. Exit")
 
 if __name__ == "__main__":
     main()
